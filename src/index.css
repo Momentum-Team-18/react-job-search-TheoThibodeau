@@ -74,12 +74,13 @@ button:focus-visible {
 
 .searchButtons{
   display: flex;
-  
+  margin-right: 20px;
 }
 
 .latestJobs {
   display: flex;
   border-bottom: 1px solid black;
+  flex-direction: column;
 }
 
 .latestJobs p {

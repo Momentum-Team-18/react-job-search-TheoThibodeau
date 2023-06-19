@@ -8,11 +8,13 @@ import Title from './Title'
 function Latest(){
 
     const [latestJobs, setLatestJobs] = useState([])
+    const [latestID, setLatestID] = useState(null)
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
     }
-    const navigateToJob = () => {
-        location.href = '/Title'
+
+    const handleSetLatestID = (id) => {
+        setLatestID(id)
     }
 
     useEffect(() => {
@@ -24,34 +26,19 @@ function Latest(){
             }}).then((response) => setLatestJobs(response.data.results))
         }, [])
 
-
 return (
 <>
+    {latestID ? <Title latestID={latestID} /> : 
     <h3>
         <h2>LatestJobs</h2>
-        <ul className='descriptors'>
-            <p>Job Title</p>
-            <p>Company Name</p>
-            <p>Date Posted</p>
-        </ul>
         {latestJobs.map((job) =>( 
-            <ul class='latestJobs'>
-                <p><a href='#' onClick={navigateToJob}>{truncateText(job.role, 15)}</a></p>
-                <p>{truncateText(job.company_name, 10)}</p>
-                <p>{dayjs(job.date_posted).format('MM/DD/YYYY')}</p> 
+            <ul className='latestJobs'>
+                <p><a href='#' onClick={() => handleSetLatestID(latestJobs.id)}>{truncateText(job.role, 35)}</a></p>
+                <p>Company: <a href='#'>{truncateText(job.company_name, 20)}</a></p>
+                <p>Date Posted: {dayjs(job.date_posted).format('MM/DD/YYYY')}</p> 
             </ul>
         ))}
-    </h3>
-
-    {/* // }
-    // <h3>Latest Jobs
-    // {latestJob.map((job) => (
-    //     <ul key={job.results}>
-    //         <p>{job.role}</p>
-    //         <p>{job.date_posted}</p>
-    //     </ul>
-    // ))}
-    // </h3> */}
+    </h3>}
 </>
 )
 

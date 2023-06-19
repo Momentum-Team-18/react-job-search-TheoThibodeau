@@ -7,12 +7,20 @@ import Latest from './Latest'
 function Categories() {
     
     const [jobCategories, setJobCategories] = useState([])
-    const [searchKeyword, setSearchKeyword] = useState("")
     const [selectedCategory, setSelectedCategory] = useState("")
    
     const handleCategoryClick = (category) => {
+        console.log(category)
         setSelectedCategory(category)
     }
+    useEffect(() => {
+        axios
+        .get('https://proxy-findwork-api.glitch.me/api/jobs/', {
+            headers: {
+            Authorization: `Token ${import.meta.env.VITE_FINDWORK_API_KEY}`,
+            'Content-Type': 'application/json',
+            }}).then((response) => setJobCategories(response.data.results))
+        }, [])
 
     useEffect(() => {
         axios
@@ -51,7 +59,6 @@ function Categories() {
           >
             Javascript
           </div>
-          <div>Random</div>
         </div>
         <div className="mt-4">
           <input

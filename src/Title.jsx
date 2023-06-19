@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Latest from './Latest'
+import parse from 'html-react-parser'
 
 
 function Title() {
@@ -24,7 +25,7 @@ return(
             <h1>{title[currentJob].role}</h1>
         }</p>
         <p className='jobCompanyName'>{title.length > 0 && 
-            <h2>Company Name: {title[currentJob].company_name}</h2>
+            <h2>Company Name: <a href='#'>{title[currentJob].company_name}</a></h2>
         }</p>
         <p className='jobRemote'>{title.length > 0 && 
             <h2>{title[currentJob].remote}</h2>
@@ -33,11 +34,11 @@ return(
             <h2>{title[currentJob].logo}</h2>
         }</img> */}
         <p className='jobKeywords'>{title.length > 0 && 
-            <h2>Keywords: {title[currentJob].keywords}</h2>
+            <h2>Keywords: <a href='#'>{title[currentJob].keywords}</a></h2>
         }</p>
         <p className='jobText'>{title.length > 0 && 
-            <h2>Job Description: {title[currentJob].text}</h2>
-        }</p>
+        parse(`<h2>Job Description: ${title[currentJob].text}</h2>`)}
+        </p>
     </div>
 </>
 )

@@ -8,8 +8,8 @@ function App() {
   return (
     <div className="appjsxDiv">
       <Categories />
-      <Latest />
-      {/* <Title /> */}
+      {/* <Latest />
+      <Title /> */}
     </div>
   )
 }
