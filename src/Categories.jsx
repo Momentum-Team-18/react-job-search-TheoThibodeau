@@ -1,33 +1,66 @@
 import React from 'react'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import Title from './Title'
+import Latest from './Latest'
 
 function Categories() {
+    
     const [jobCategories, setJobCategories] = useState([])
-
-
-    const handleJobCategories = (keywords) => {
-        setJobCategories(keywords)
+    const [searchKeyword, setSearchKeyword] = useState("")
+    const [selectedCategory, setSelectedCategory] = useState("")
+   
+    const handleCategoryClick = (category) => {
+        setSelectedCategory(category)
     }
 
     useEffect(() => {
         axios
-        .get('https://proxy-findwork-api.glitch.me/api/jobs/', {
+        .get(categoryURL, {
             headers: {
             Authorization: `Token ${import.meta.env.VITE_FINDWORK_API_KEY}`,
             'Content-Type': 'application/json',
             }}).then((response) => setJobCategories(response.data.results))
-        }, [])
-        
+        }, [selectedCategory])
+    
+        const categoryURL = `https://proxy-findwork-api.glitch.me/api/jobs/?remote=true&search=${selectedCategory}&sort_by=relevance`
+        console.log(jobCategories)
 
-    return (
+        return (
     <>
-        <h1>Job Search</h1>
-        {jobCategories.map((job) => (
-            <ul key={job.results}>
-                <button onClick={() => handleJobCategories(job.results)}>{job.employment_type}</button>
-            </ul>
-        ))}
+        <h2>Job Search
+        <div className="sortBy">
+        <div className="searchButtons">
+          <div
+            onClick={() => handleCategoryClick("react")}
+          >
+            React
+          </div>
+          <div
+            onClick={() => handleCategoryClick("django")}
+          >
+            Django
+          </div>
+          <div
+            onClick={() => handleCategoryClick("python")}
+          >
+            Python
+          </div>
+          <div
+            onClick={() => handleCategoryClick("javascript")}
+          >
+            Javascript
+          </div>
+          <div>Random</div>
+        </div>
+        <div className="mt-4">
+          <input
+            placeholder="Search..."
+          />
+        </div>
+      </div>
+        </h2>
+        <Latest />
     </>
     )}
 
